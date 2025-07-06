@@ -155,7 +155,7 @@ export default function CalendarPage() {
         description: "Capturing calendar weeks...",
       });
 
-      const doc = new jsPDF('l', 'mm', 'a4'); // Landscape orientation
+      const doc = new jsPDF('p', 'mm', 'a4'); // Portrait orientation
       const pageWidth = doc.internal.pageSize.width;
       const pageHeight = doc.internal.pageSize.height;
       
@@ -177,7 +177,7 @@ export default function CalendarPage() {
       // Capture each week
       for (let weekIndex = 0; weekIndex < period.weeks.length; weekIndex++) {
         if (weekIndex > 0) {
-          doc.addPage('l');
+          doc.addPage();
         }
 
         // Week header - smaller to save space
