@@ -158,6 +158,10 @@ export function Calendar({
                                   <div>
                                     {existingVisit.name || existingVisit.visitType}
                                     <br />
+                                    <small>
+                                      {formatTimeSlot(existingVisit.time)} - {formatTimeSlot(existingVisit.time + existingVisit.hours)}
+                                    </small>
+                                    <br />
                                     <small>({existingVisit.hours}h)</small>
                                   </div>
                                 </div>
