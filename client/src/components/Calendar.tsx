@@ -90,9 +90,9 @@ export function Calendar({
         </p>
       </CardHeader>
       <CardContent>
-        <div className="space-y-8">
+        <div className="space-y-8" data-calendar="true">
           {period.weeks.map((week, weekIndex) => (
-            <div key={weekIndex} className="week-block">
+            <div key={weekIndex} className="week-block" data-week={week.num}>
               <h3 className="text-lg font-bold mb-3">
                 <span className="text-cava-primary">Week {week.num}</span> – 
                 <span className="text-gray-600"> {week.start} through {week.end}</span> – 

@@ -10,6 +10,7 @@ import { getVisitTypeByKey } from '@/lib/visitTypes';
 import { useToast } from '@/hooks/use-toast';
 import { generateVisitsForPeriod, decrementVisitUsage, getAvailableVisits, GeneratedVisit, RestaurantInfo } from '@/lib/visitGeneration';
 import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 export default function CalendarPage() {
   const [currentPeriod, setCurrentPeriod] = useState(getCurrentPeriod());
@@ -133,11 +134,11 @@ export default function CalendarPage() {
     });
   };
 
-  const handleDownloadPDF = () => {
-    if (!userName || currentPeriodSchedule.length === 0) {
+  const handleDownloadPDF = async () => {
+    if (!userName) {
       toast({
         title: "Cannot Download PDF",
-        description: "Please enter your name and add some visits to the calendar first.",
+        description: "Please enter your name first.",
         variant: "destructive"
       });
       return;
@@ -149,170 +150,94 @@ export default function CalendarPage() {
         throw new Error('Period not found');
       }
 
-      const doc = new jsPDF();
+      toast({
+        title: "Generating PDF",
+        description: "Capturing calendar weeks...",
+      });
+
+      const doc = new jsPDF('l', 'mm', 'a4'); // Landscape orientation
       const pageWidth = doc.internal.pageSize.width;
       const pageHeight = doc.internal.pageSize.height;
-      const margin = 15;
       
-      // Title on first page
+      // Title page
       doc.setFontSize(20);
-      doc.setTextColor(0, 0, 0); // Black for print
-      doc.text(`${userName} - Period ${currentPeriod} Schedule`, pageWidth / 2, 30, { align: 'center' });
+      doc.setTextColor(0, 0, 0);
+      doc.text(`${userName} - Period ${currentPeriod} Schedule`, pageWidth / 2, 40, { align: 'center' });
       
-      doc.setFontSize(12);
-      doc.text(`${period.name} (${period.start} - ${period.end})`, pageWidth / 2, 45, { align: 'center' });
-      
-      // Generate one page per week
-      period.weeks.forEach((week, weekIndex) => {
-        if (weekIndex > 0) {
-          doc.addPage();
-        }
-        
-        // Week header
-        const yStart = weekIndex === 0 ? 70 : 30;
-        doc.setFontSize(16);
-        doc.setTextColor(0, 0, 0);
-        doc.text(`Week ${week.num}: ${week.start} - ${week.end}`, margin, yStart);
-        
-        // Days of the week
-        const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-        const dayWidth = (pageWidth - 2 * margin) / 7;
-        let currentY = yStart + 20;
-        
-        // Day headers
-        doc.setFontSize(10);
-        doc.setTextColor(0, 0, 0);
-        days.forEach((day, dayIndex) => {
-          const x = margin + dayIndex * dayWidth;
-          doc.text(day, x + dayWidth / 2, currentY, { align: 'center' });
-          
-          // Draw vertical line between days
-          if (dayIndex < days.length - 1) {
-            doc.setDrawColor(128, 128, 128); // Gray
-            doc.line(x + dayWidth, currentY - 10, x + dayWidth, pageHeight - 40);
-          }
-        });
-        
-        // Draw horizontal line under day headers
-        doc.setDrawColor(128, 128, 128);
-        doc.line(margin, currentY + 5, pageWidth - margin, currentY + 5);
-        
-        // Create full calendar grid with time slots
-        const timeSlots = Array.from({ length: 15 }, (_, i) => i + 6); // 6 AM to 8 PM
-        const slotHeight = 12;
-        const startY = currentY + 20;
-        
-        // Draw grid background
-        doc.setDrawColor(200, 200, 200);
-        doc.setLineWidth(0.5);
-        
-        // Vertical lines for days
-        for (let dayIndex = 0; dayIndex <= 7; dayIndex++) {
-          const x = margin + dayIndex * dayWidth;
-          doc.line(x, startY, x, startY + timeSlots.length * slotHeight);
-        }
-        
-        // Horizontal lines for time slots
-        for (let hourIndex = 0; hourIndex <= timeSlots.length; hourIndex++) {
-          const y = startY + hourIndex * slotHeight;
-          doc.line(margin, y, pageWidth - margin, y);
-        }
-        
-        // Time labels and visit blocks
-        timeSlots.forEach((hour, hourIndex) => {
-          const y = startY + hourIndex * slotHeight;
-          
-          // Time label
-          doc.setFontSize(7);
-          doc.setTextColor(60, 60, 60);
-          const timeStr = hour === 12 ? '12PM' : 
-                         hour > 12 ? `${hour - 12}PM` : 
-                         hour === 0 ? '12AM' : `${hour}AM`;
-          doc.text(timeStr, margin - 20, y + 7);
-          
-          // Check for visits in each day
-          days.forEach((day, dayIndex) => {
-            const x = margin + dayIndex * dayWidth;
-            
-            // Find visits for this day and time
-            const dayVisits = currentPeriodSchedule.filter(visit => 
-              visit.week === week.num && 
-              visit.day === dayIndex + 1 && 
-              visit.time === hour
-            );
-            
-            if (dayVisits.length > 0) {
-              dayVisits.forEach((visit, visitIndex) => {
-                // Calculate visit block height based on duration
-                const visitHeight = (visit.hours || 1) * slotHeight - 2;
-                const visitY = y + 1 + (visitIndex * 2);
-                
-                // Draw visit block with darker fill
-                doc.setFillColor(180, 180, 180); // Darker gray for visibility
-                doc.setDrawColor(100, 100, 100);
-                doc.setLineWidth(1);
-                doc.rect(x + 1, visitY, dayWidth - 2, visitHeight, 'FD');
-                
-                // Visit type (abbreviated for space)
-                doc.setFontSize(6);
-                doc.setTextColor(0, 0, 0);
-                const visitType = visit.visitType === 'Quality Restaurant Audit' ? 'QRA' :
-                                visit.visitType === 'Coaching Visit' ? 'Coaching' :
-                                visit.visitType === 'Cash Audit' ? 'Cash' :
-                                visit.visitType === 'GM Impact Plan Conversation' ? 'GM Impact' :
-                                visit.visitType === 'Guest Experience Night/Weekend' ? 'Guest Exp' :
-                                visit.visitType;
-                
-                doc.text(visitType, x + dayWidth / 2, visitY + 6, { align: 'center' });
-                
-                // Restaurant name (if space allows)
-                if (visit.restaurantName && visitHeight >= 8) {
-                  doc.setFontSize(5);
-                  doc.setTextColor(40, 40, 40);
-                  doc.text(visit.restaurantName, x + dayWidth / 2, visitY + 10, { align: 'center' });
-                }
-                
-                // Time indicator
-                if (visitHeight >= 12) {
-                  doc.setFontSize(5);
-                  doc.setTextColor(80, 80, 80);
-                  const timeLabel = `${visit.hours || 1}h`;
-                  doc.text(timeLabel, x + dayWidth / 2, visitY + visitHeight - 2, { align: 'center' });
-                }
-              });
-            }
-          });
-        });
-        
-        // Add legend at bottom of each page
-        const legendY = pageHeight - 40;
-        doc.setFontSize(8);
-        doc.setTextColor(0, 0, 0);
-        doc.text('Legend:', margin, legendY);
-        
-        const legendItems = [
-          { abbr: 'QRA', full: 'Quality Restaurant Audit (5h)' },
-          { abbr: 'Coaching', full: 'Coaching Visit (2h)' },
-          { abbr: 'Cash', full: 'Cash Audit (1h)' },
-          { abbr: 'GM Impact', full: 'GM Impact Plan Conversation (1h)' },
-          { abbr: 'Guest Exp', full: 'Guest Experience Night/Weekend (2h)' }
-        ];
-        
-        legendItems.forEach((item, index) => {
-          const x = margin + (index % 2) * (pageWidth / 2 - margin);
-          const y = legendY + 8 + Math.floor(index / 2) * 8;
-          doc.setFontSize(7);
-          doc.text(`${item.abbr}: ${item.full}`, x, y);
-        });
+      doc.setFontSize(14);
+      doc.text(`${period.name} (${period.start} - ${period.end})`, pageWidth / 2, 55, { align: 'center' });
 
-        // Week summary
+      // Find the calendar element
+      const calendarElement = document.querySelector('[data-calendar="true"]') as HTMLElement;
+      
+      if (!calendarElement) {
+        throw new Error('Calendar not found');
+      }
+
+      // Capture each week
+      for (let weekIndex = 0; weekIndex < period.weeks.length; weekIndex++) {
+        if (weekIndex > 0) {
+          doc.addPage('l');
+        }
+
+        // Week header
+        const week = period.weeks[weekIndex];
+        const yStart = weekIndex === 0 ? 80 : 20;
+        
+        doc.setFontSize(16);
+        doc.text(`Week ${week.num}: ${week.start} - ${week.end}`, 20, yStart);
+
+        // Find the specific week element
+        const weekElement = document.querySelector(`[data-week="${week.num}"]`) as HTMLElement;
+        
+        if (weekElement) {
+          try {
+            // Temporarily make the element visible and styled for print
+            const originalStyle = weekElement.style.cssText;
+            weekElement.style.backgroundColor = 'white';
+            weekElement.style.color = 'black';
+            
+            // Capture the week as an image
+            const canvas = await html2canvas(weekElement, {
+              backgroundColor: 'white',
+              scale: 2,
+              useCORS: true,
+              allowTaint: true
+            });
+            
+            // Restore original styling
+            weekElement.style.cssText = originalStyle;
+            
+            // Add the image to PDF
+            const imgData = canvas.toDataURL('image/png');
+            const imgWidth = pageWidth - 40;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+            
+            // Make sure it fits on the page
+            const maxHeight = pageHeight - yStart - 20;
+            const finalHeight = Math.min(imgHeight, maxHeight);
+            const finalWidth = (finalHeight * canvas.width) / canvas.height;
+            
+            doc.addImage(imgData, 'PNG', 20, yStart + 10, finalWidth, finalHeight);
+            
+          } catch (error) {
+            console.error('Error capturing week:', error);
+            // Fallback: just add week info
+            doc.setFontSize(12);
+            doc.text('Week content could not be captured', 20, yStart + 30);
+          }
+        } else {
+          // Fallback: add basic week info
+          doc.setFontSize(12);
+          doc.text(`Week ${week.num} calendar view not available`, 20, yStart + 30);
+        }
+
+        // Add visit summary for this week
         const weekVisits = currentPeriodSchedule.filter(visit => visit.week === week.num);
         if (weekVisits.length > 0) {
-          doc.setFontSize(9);
-          doc.setTextColor(0, 0, 0);
-          doc.text(`Total visits this week: ${weekVisits.length}`, margin, pageHeight - 15);
+          doc.setFontSize(10);
+          doc.text(`Total visits: ${weekVisits.length}`, 20, pageHeight - 15);
           
-          // Visit types summary
           const visitTypes = weekVisits.reduce((acc, visit) => {
             acc[visit.visitType] = (acc[visit.visitType] || 0) + 1;
             return acc;
@@ -321,18 +246,12 @@ export default function CalendarPage() {
           let summaryText = 'Types: ';
           Object.entries(visitTypes).forEach(([type, count], index) => {
             if (index > 0) summaryText += ', ';
-            const abbr = type === 'Quality Restaurant Audit' ? 'QRA' :
-                        type === 'Coaching Visit' ? 'Coaching' :
-                        type === 'Cash Audit' ? 'Cash' :
-                        type === 'GM Impact Plan Conversation' ? 'GM Impact' :
-                        type === 'Guest Experience Night/Weekend' ? 'Guest Exp' :
-                        type;
-            summaryText += `${abbr}(${count})`;
+            summaryText += `${type} (${count})`;
           });
           
-          doc.text(summaryText, margin, pageHeight - 8);
+          doc.text(summaryText, 20, pageHeight - 8);
         }
-      });
+      }
       
       // Save the PDF
       const fileName = `${userName}_Period_${currentPeriod}_Schedule.pdf`;
@@ -343,6 +262,7 @@ export default function CalendarPage() {
         description: `Calendar for ${userName} - Period ${currentPeriod} has been downloaded.`,
       });
     } catch (error) {
+      console.error('PDF generation error:', error);
       toast({
         title: "Download Failed",
         description: "There was an error generating the PDF. Please try again.",
