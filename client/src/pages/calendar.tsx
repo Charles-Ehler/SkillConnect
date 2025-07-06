@@ -142,13 +142,36 @@ export default function CalendarPage() {
       <div className="flex gap-6 px-6 pb-6">
         {/* Left Column - Visit Setup and Bank (1/3 width) */}
         <div className="w-1/3">
-          <VisitSetup
-            userName={userName}
-            restaurants={restaurants}
-            onUserNameChange={setUserName}
-            onRestaurantsChange={setRestaurants}
-            onGenerateVisits={handleGenerateVisits}
-          />
+          {/* Collapsible Visit Setup */}
+          <div className={`transition-all duration-300 ${visitsGenerated ? 'mb-2' : 'mb-4'}`}>
+            {visitsGenerated ? (
+              <div className="bg-[#ffeab6] border border-[#009ef4] rounded-lg p-3">
+                <div className="flex items-center justify-between">
+                  <div className="text-sm font-medium text-gray-700">
+                    Setup: {userName} • {restaurants.length} restaurants
+                  </div>
+                  <button
+                    onClick={() => {
+                      setVisitsGenerated(false);
+                      setGeneratedVisitsByPeriod({});
+                      setScheduleData({});
+                    }}
+                    className="text-xs text-[#009ef4] hover:underline"
+                  >
+                    Edit Setup
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <VisitSetup
+                userName={userName}
+                restaurants={restaurants}
+                onUserNameChange={setUserName}
+                onRestaurantsChange={setRestaurants}
+                onGenerateVisits={handleGenerateVisits}
+              />
+            )}
+          </div>
           
           {/* Sticky Visit Bank */}
           <div className="sticky top-4">
