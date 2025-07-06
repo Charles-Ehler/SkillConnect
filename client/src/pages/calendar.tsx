@@ -180,11 +180,11 @@ export default function CalendarPage() {
           doc.addPage('l');
         }
 
-        // Week header
+        // Week header - smaller to save space
         const week = period.weeks[weekIndex];
-        const yStart = weekIndex === 0 ? 80 : 20;
+        const yStart = weekIndex === 0 ? 70 : 15;
         
-        doc.setFontSize(16);
+        doc.setFontSize(14);
         doc.text(`Week ${week.num}: ${week.start} - ${week.end}`, 20, yStart);
 
         // Find the specific week element
@@ -197,10 +197,10 @@ export default function CalendarPage() {
             weekElement.style.backgroundColor = 'white';
             weekElement.style.color = 'black';
             
-            // Capture the week as an image
+            // Capture the week as an image with higher quality
             const canvas = await html2canvas(weekElement, {
               backgroundColor: 'white',
-              scale: 2,
+              scale: 3, // Higher quality
               useCORS: true,
               allowTaint: true
             });
@@ -208,17 +208,27 @@ export default function CalendarPage() {
             // Restore original styling
             weekElement.style.cssText = originalStyle;
             
-            // Add the image to PDF
+            // Add the image to PDF - make it larger
             const imgData = canvas.toDataURL('image/png');
-            const imgWidth = pageWidth - 40;
-            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+            const margin = 10; // Smaller margins
+            const maxWidth = pageWidth - (margin * 2);
+            const maxHeight = pageHeight - yStart - 15; // Maximum space for calendar
             
-            // Make sure it fits on the page
-            const maxHeight = pageHeight - yStart - 20;
-            const finalHeight = Math.min(imgHeight, maxHeight);
-            const finalWidth = (finalHeight * canvas.width) / canvas.height;
+            // Calculate size to fill most of the page while maintaining aspect ratio
+            const aspectRatio = canvas.width / canvas.height;
+            let finalWidth = maxWidth;
+            let finalHeight = finalWidth / aspectRatio;
             
-            doc.addImage(imgData, 'PNG', 20, yStart + 10, finalWidth, finalHeight);
+            // If height is too big, scale by height instead
+            if (finalHeight > maxHeight) {
+              finalHeight = maxHeight;
+              finalWidth = finalHeight * aspectRatio;
+            }
+            
+            // Center the image horizontally
+            const xPosition = (pageWidth - finalWidth) / 2;
+            
+            doc.addImage(imgData, 'PNG', xPosition, yStart + 10, finalWidth, finalHeight);
             
           } catch (error) {
             console.error('Error capturing week:', error);
