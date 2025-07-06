@@ -101,9 +101,9 @@ export function Calendar({
               
               <div className="calendar-grid overflow-x-auto">
                 <table className="w-full border-collapse min-w-[800px]">
-                  <thead className="sticky top-0 z-20">
+                  <thead className="bg-gray-50">
                     <tr className="bg-gray-50">
-                      <th className="border border-gray-300 p-2 text-xs font-bold text-left w-20 bg-gray-50 sticky left-0 z-30">Time</th>
+                      <th className="border border-gray-300 p-2 text-xs font-bold text-left w-20 bg-gray-50">Time</th>
                       {week.dates.map((date, dayIndex) => (
                         <th key={dayIndex} className="border border-gray-300 p-2 text-xs font-bold text-center bg-gray-50">
                           {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][dayIndex]}
