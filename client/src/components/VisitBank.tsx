@@ -78,13 +78,15 @@ export function VisitBank({
           </div>
         </div>
 
-        {/* Reset Calendar Button */}
-        <Button
-          onClick={handleResetCalendar}
-          className="w-full cava-action-red text-white font-bold py-2 px-4 rounded-lg mt-6 hover:bg-red-700 transition-colors"
-        >
-          Reset Calendar
-        </Button>
+        {/* Reset Calendar Button - Fixed Position */}
+        <div className="fixed bottom-6 left-6 z-50">
+          <Button
+            onClick={handleResetCalendar}
+            className="cava-action-red text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-red-700 transition-colors"
+          >
+            Reset Calendar
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );
