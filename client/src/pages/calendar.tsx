@@ -140,15 +140,18 @@ export default function CalendarPage() {
             onGenerateVisits={handleGenerateVisits}
           />
           
-          {visitsGenerated && (
-            <VisitBank
-              currentPeriod={currentPeriod}
-              generatedVisits={getAvailableVisits(generatedVisits)}
-              onDragStart={handleDragStart}
-              onDragEnd={handleDragEnd}
-              onResetCalendar={handleResetCalendar}
-            />
-          )}
+          {/* Sticky Visit Bank */}
+          <div className="sticky top-4">
+            {visitsGenerated && (
+              <VisitBank
+                currentPeriod={currentPeriod}
+                generatedVisits={getAvailableVisits(generatedVisits)}
+                onDragStart={handleDragStart}
+                onDragEnd={handleDragEnd}
+                onResetCalendar={handleResetCalendar}
+              />
+            )}
+          </div>
         </div>
 
         {/* Right Column - Calendar (2/3 width) */}

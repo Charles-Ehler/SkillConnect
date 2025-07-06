@@ -38,7 +38,7 @@ export function generateVisitsForPeriod(period: number, restaurants: RestaurantI
         visits.push({
           id: `qra-${restaurantId}`,
           visitType: qraConfig.key,
-          name: `${qraConfig.name} - ${restaurant.name}`,
+          name: `${qraConfig.name} - ${restaurant.name} (${qraConfig.hours}h)`,
           hours: qraConfig.hours,
           color: qraConfig.color,
           textColor: qraConfig.textColor,
@@ -58,7 +58,7 @@ export function generateVisitsForPeriod(period: number, restaurants: RestaurantI
         visits.push({
           id: `coaching-${restaurantId}`,
           visitType: coachingConfig.key,
-          name: `${coachingConfig.name} - ${restaurant.name}`,
+          name: `${coachingConfig.name} - ${restaurant.name} (${coachingConfig.hours}h)`,
           hours: coachingConfig.hours,
           color: coachingConfig.color,
           textColor: coachingConfig.textColor,
@@ -79,7 +79,7 @@ export function generateVisitsForPeriod(period: number, restaurants: RestaurantI
         visits.push({
           id: `${visitKey}-${restaurantId}`,
           visitType: config.key,
-          name: `${config.name} - ${restaurant.name}`,
+          name: `${config.name} - ${restaurant.name} (${config.hours}h)`,
           hours: config.hours,
           color: config.color,
           textColor: config.textColor,
