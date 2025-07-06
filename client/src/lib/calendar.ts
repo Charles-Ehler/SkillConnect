@@ -6,6 +6,9 @@ export interface ScheduledVisit {
   time: number;
   hours: number;
   restaurantName?: string;
+  name?: string;
+  color?: string;
+  textColor?: string;
 }
 
 export interface ScheduleData {

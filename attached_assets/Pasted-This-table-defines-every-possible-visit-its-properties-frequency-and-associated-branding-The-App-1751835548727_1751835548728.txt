@@ -1,0 +1,35 @@
+This table defines every possible visit, its properties, frequency, and associated branding. The Applicability column dictates which type of period the visit should be generated for.
+
+Visit Type	Duration (hrs)	Frequency	Applicability	Tile BG Color
+QRA	5.0	Once per restaurant	QRA Periods Only	bg-[#009ef4]
+Coaching Visit	2.0	Once per restaurant	Standard Periods	bg-[#e8b2ee]
+Guest Experience	1.5	Once per restaurant	All Periods	bg-[#f9d000]
+Cash Audit	1.0	Once per restaurant	All Periods	bg-[#80ceff]
+GM Impact	1.0	Once per restaurant	All Periods	bg-[#da3d9d]
+Station Training Workshop	2.0	Once per garden	All Periods	bg-[#959502]
+Competency Champion	1.0	Once per garden	All Periods	bg-[#bcdaff]
+3. Visit Generation Algorithm
+This section specifies the exact algorithm to be implemented in a function like generateVisitsForPeriod(period, restaurants). This function is responsible for creating a fresh list of visit objects for the state.visits array.
+
+3.1. Function Signature
+Inputs: The function must accept the target period (e.g., "P7") and the user's list of restaurants (e.g., [{ id: 'rest-0', name: 'CAVA Springfield' }, ...]).
+Output: The function must return an array of visit objects, each with a unique ID, ready to be stored in the application state. Each object should contain properties for id, type, duration, location, required, scheduled, and remaining.
+3.2. Step-by-Step Logic
+Initialize an empty array to hold the new visits for the specified period.
+Determine Period Type: Check if the input period exists in the defined list of QRA Periods.
+Generate Per-Restaurant Visits:
+Initiate a loop that iterates through each restaurant object in the provided restaurants array.
+Inside the loop, for each restaurant:
+If the period is a QRA Period:
+Create and add a QRA visit object for this restaurant.
+If the period is a Standard Period:
+Create and add a Coaching Visit object for this restaurant.
+Regardless of period type:
+Create and add a Guest Experience visit object for this restaurant.
+Create and add a Cash Audit visit object for this restaurant.
+Create and add a GM Impact visit object for this restaurant.
+Generate Per-Garden Visits:
+After the restaurant loop has completed, add the visits that occur only once per period, regardless of the number of restaurants.
+Create and add one Station Training Workshop visit object. The location for this visit should be set to "Per Garden".
+Create and add one Competency Champion visit object. The location for this visit should be set to "Per Garden".
+Return the Final Array: Return the completed array of all generated visit objects for the period.

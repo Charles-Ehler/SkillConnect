@@ -141,12 +141,25 @@ export function Calendar({
                                   style={{
                                     backgroundColor: existingVisit.color || '#009ef4',
                                     color: existingVisit.textColor || 'white',
-                                    height: `${existingVisit.hours * 58}px`,
-                                    top: '0'
+                                    height: `${existingVisit.hours * 60}px`,
+                                    top: '0',
+                                    fontSize: '11px',
+                                    lineHeight: '1.1',
+                                    padding: '4px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    textAlign: 'center',
+                                    wordBreak: 'break-word',
+                                    overflow: 'hidden'
                                   }}
                                   onClick={() => handleVisitClick(existingVisit)}
                                 >
-                                  {existingVisit.name || existingVisit.visitType}
+                                  <div>
+                                    {existingVisit.name || existingVisit.visitType}
+                                    <br />
+                                    <small>({existingVisit.hours}h)</small>
+                                  </div>
                                 </div>
                               )}
                             </td>

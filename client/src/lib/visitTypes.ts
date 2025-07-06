@@ -6,71 +6,87 @@ export interface VisitTypeConfig {
   textColor: string;
   periods: number[];
   isStatic: boolean;
+  frequency: 'per-restaurant' | 'per-garden';
+  applicability: 'qra-periods' | 'standard-periods' | 'all-periods';
 }
 
 export const visitTypeConfigs: VisitTypeConfig[] = [
   {
     key: 'qra',
-    name: 'Quality Restaurant Audit (QRA)',
+    name: 'QRA',
     hours: 5,
     color: '#009ef4',
     textColor: 'white',
     periods: [1, 5, 8, 11],
-    isStatic: false
+    isStatic: false,
+    frequency: 'per-restaurant',
+    applicability: 'qra-periods'
   },
   {
     key: 'coaching',
     name: 'Coaching Visit',
     hours: 2,
-    color: '#959502',
-    textColor: 'white',
+    color: '#e8b2ee',
+    textColor: 'black',
     periods: [2, 3, 4, 6, 7, 9, 10, 12, 13],
-    isStatic: false
+    isStatic: false,
+    frequency: 'per-restaurant',
+    applicability: 'standard-periods'
   },
   {
     key: 'cash-audit',
     name: 'Cash Audit',
     hours: 1,
-    color: '#bcdaff',
+    color: '#80ceff',
     textColor: 'black',
     periods: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
-    isStatic: false
+    isStatic: false,
+    frequency: 'per-restaurant',
+    applicability: 'all-periods'
   },
   {
     key: 'gm-impact',
-    name: 'GM Impact Plan Conversation',
+    name: 'GM Impact',
     hours: 1,
-    color: '#ff9d00',
-    textColor: 'white',
-    periods: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
-    isStatic: false
-  },
-  {
-    key: 'guest-experience',
-    name: 'Guest Experience Night/Weekend',
-    hours: 1.5,
     color: '#da3d9d',
     textColor: 'white',
     periods: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
-    isStatic: false
+    isStatic: false,
+    frequency: 'per-restaurant',
+    applicability: 'all-periods'
+  },
+  {
+    key: 'guest-experience',
+    name: 'Guest Experience',
+    hours: 1.5,
+    color: '#f9d000',
+    textColor: 'black',
+    periods: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+    isStatic: false,
+    frequency: 'per-restaurant',
+    applicability: 'all-periods'
   },
   {
     key: 'station-training',
     name: 'Station Training Workshop',
     hours: 2,
-    color: '#ff4c0a',
+    color: '#959502',
     textColor: 'white',
     periods: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
-    isStatic: true
+    isStatic: true,
+    frequency: 'per-garden',
+    applicability: 'all-periods'
   },
   {
     key: 'competency-champion',
-    name: 'Competency Champion Training',
+    name: 'Competency Champion',
     hours: 1,
-    color: '#e8b2ee',
+    color: '#bcdaff',
     textColor: 'black',
     periods: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
-    isStatic: true
+    isStatic: true,
+    frequency: 'per-garden',
+    applicability: 'all-periods'
   }
 ];
 

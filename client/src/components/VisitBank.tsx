@@ -1,11 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { VisitTile } from "./VisitTile";
-import { getVisitTypesForPeriod, getStaticVisitTypes } from "@/lib/visitTypes";
-import { useDragAndDrop, DraggedItem } from "@/hooks/useDragAndDrop";
+import { DraggedItem } from "@/hooks/useDragAndDrop";
+import { GeneratedVisit } from "@/lib/visitGeneration";
 
 interface VisitBankProps {
   currentPeriod: number;
+  generatedVisits: GeneratedVisit[];
   onDragStart: (item: DraggedItem) => void;
   onDragEnd: () => void;
   onResetCalendar: () => void;
@@ -13,12 +14,13 @@ interface VisitBankProps {
 
 export function VisitBank({ 
   currentPeriod, 
+  generatedVisits,
   onDragStart, 
   onDragEnd,
   onResetCalendar 
 }: VisitBankProps) {
-  const staticVisits = getStaticVisitTypes();
-  const periodVisits = getVisitTypesForPeriod(currentPeriod).filter(vt => !vt.isStatic);
+  const staticVisits = generatedVisits.filter(visit => visit.frequency === 'per-garden');
+  const restaurantVisits = generatedVisits.filter(visit => visit.frequency === 'per-restaurant');
 
   const handleResetCalendar = () => {
     if (confirm('Are you sure you want to reset the calendar for this period? This action cannot be undone.')) {
@@ -40,13 +42,13 @@ export function VisitBank({
           <div className="space-y-2">
             {staticVisits.map((visit) => (
               <VisitTile
-                key={visit.key}
-                visitType={visit.key}
+                key={visit.id}
+                visitType={visit.visitType}
                 name={visit.name}
                 hours={visit.hours}
                 color={visit.color}
                 textColor={visit.textColor}
-                isStatic={visit.isStatic}
+                isStatic={true}
                 onDragStart={onDragStart}
                 onDragEnd={onDragEnd}
               />
@@ -60,15 +62,15 @@ export function VisitBank({
             Restaurant Visits (Period {currentPeriod})
           </h3>
           <div className="space-y-2">
-            {periodVisits.map((visit) => (
+            {restaurantVisits.map((visit) => (
               <VisitTile
-                key={visit.key}
-                visitType={visit.key}
+                key={visit.id}
+                visitType={visit.visitType}
                 name={visit.name}
                 hours={visit.hours}
                 color={visit.color}
                 textColor={visit.textColor}
-                isStatic={visit.isStatic}
+                isStatic={false}
                 onDragStart={onDragStart}
                 onDragEnd={onDragEnd}
               />

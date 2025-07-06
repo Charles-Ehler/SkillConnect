@@ -40,21 +40,22 @@ export function Header({ currentPeriod, onPeriodChange }: HeaderProps) {
         </div>
         
         {/* Period Tabs */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {periods.map((period) => (
-            <Button
-              key={period.id}
-              onClick={() => onPeriodChange(period.id)}
-              className={cn(
-                "period-tab px-3 py-2 font-bold text-sm bg-white rounded-lg shadow-sm border-2 border-transparent transition-all",
-                currentPeriod === period.id && "active border-b-cava-primary",
-                isPastPeriod(period.id) && "past text-gray-400"
-              )}
-              variant="ghost"
-            >
-              P{period.id}
-            </Button>
-          ))}
+        <div className="mb-6 overflow-x-auto">
+          <div className="flex space-x-1 min-w-max">
+            {periods.map((period) => (
+              <button
+                key={period.id}
+                onClick={() => onPeriodChange(period.id)}
+                className={cn(
+                  "period-tab px-4 py-2 bg-white rounded-t-lg hover:bg-gray-100 font-bold text-sm transition-all",
+                  currentPeriod === period.id && "active border-b-4 border-b-blue-500",
+                  isPastPeriod(period.id) && "past text-gray-400"
+                )}
+              >
+                P{period.id}
+              </button>
+            ))}
+          </div>
         </div>
       </header>
 
