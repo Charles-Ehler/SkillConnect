@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { VisitTile } from "./VisitTile";
 import { DraggedItem } from "@/hooks/useDragAndDrop";
 import { GeneratedVisit } from "@/lib/visitGeneration";
+import { Download } from "lucide-react";
 
 interface VisitBankProps {
   currentPeriod: number;
@@ -10,6 +11,7 @@ interface VisitBankProps {
   onDragStart: (item: DraggedItem) => void;
   onDragEnd: () => void;
   onResetCalendar: () => void;
+  onDownloadPDF: () => void;
 }
 
 export function VisitBank({ 
@@ -17,7 +19,8 @@ export function VisitBank({
   generatedVisits,
   onDragStart, 
   onDragEnd,
-  onResetCalendar 
+  onResetCalendar,
+  onDownloadPDF
 }: VisitBankProps) {
   const staticVisits = generatedVisits.filter(visit => visit.frequency === 'per-garden');
   const restaurantVisits = generatedVisits.filter(visit => visit.frequency === 'per-restaurant');
@@ -31,7 +34,17 @@ export function VisitBank({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-xl font-bold text-cava-primary">Visit Bank</CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-xl font-bold text-cava-primary">Visit Bank</CardTitle>
+          <Button
+            onClick={onDownloadPDF}
+            className="bg-cava-primary hover:bg-cava-primary/90 text-white font-semibold"
+            size="sm"
+          >
+            <Download className="w-4 h-4 mr-2" />
+            Download Calendar (PDF)
+          </Button>
+        </div>
       </CardHeader>
       <CardContent>
         {/* Static Visits Section */}
