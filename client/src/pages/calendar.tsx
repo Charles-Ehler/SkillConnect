@@ -15,7 +15,7 @@ export default function CalendarPage() {
   const [userName, setUserName] = useState('');
   const [restaurants, setRestaurants] = useState<string[]>([]);
   const [scheduleData, setScheduleData] = useState<ScheduleData>({});
-  const [generatedVisits, setGeneratedVisits] = useState<GeneratedVisit[]>([]);
+  const [generatedVisitsByPeriod, setGeneratedVisitsByPeriod] = useState<{[period: number]: GeneratedVisit[]}>({});
   const [visitsGenerated, setVisitsGenerated] = useState(false);
   
   const { toast } = useToast();
@@ -30,11 +30,12 @@ export default function CalendarPage() {
   } = useDragAndDrop();
 
   const currentPeriodSchedule = scheduleData[currentPeriod.toString()] || [];
+  const currentPeriodVisits = generatedVisitsByPeriod[currentPeriod] || [];
 
   const handlePeriodChange = (period: number) => {
     setCurrentPeriod(period);
-    // Regenerate visits for the new period if visits have been generated
-    if (visitsGenerated && restaurants.length > 0) {
+    // Generate visits for the new period if visits have been generated and this period doesn't have them yet
+    if (visitsGenerated && restaurants.length > 0 && !generatedVisitsByPeriod[period]) {
       regenerateVisitsForPeriod(period);
     }
   };
@@ -45,7 +46,10 @@ export default function CalendarPage() {
       name
     }));
     const newVisits = generateVisitsForPeriod(period, restaurantInfo);
-    setGeneratedVisits(newVisits);
+    setGeneratedVisitsByPeriod(prev => ({
+      ...prev,
+      [period]: newVisits
+    }));
   };
 
   const handleGenerateVisits = () => {
@@ -54,7 +58,10 @@ export default function CalendarPage() {
       name
     }));
     const newVisits = generateVisitsForPeriod(currentPeriod, restaurantInfo);
-    setGeneratedVisits(newVisits);
+    setGeneratedVisitsByPeriod(prev => ({
+      ...prev,
+      [currentPeriod]: newVisits
+    }));
     setVisitsGenerated(true);
     toast({
       title: "Visits Generated",
@@ -64,7 +71,7 @@ export default function CalendarPage() {
 
   const handleDropVisit = (visit: ScheduledVisit) => {
     // Find the generated visit that was used
-    const generatedVisit = generatedVisits.find(gv => 
+    const generatedVisit = currentPeriodVisits.find(gv => 
       gv.visitType === visit.visitType && 
       gv.remaining > 0 &&
       (draggedItem?.name === gv.name || draggedItem?.name?.includes(gv.name))
@@ -93,8 +100,11 @@ export default function CalendarPage() {
       [currentPeriod.toString()]: [...(prev[currentPeriod.toString()] || []), enhancedVisit]
     }));
 
-    // Decrement the visit usage
-    setGeneratedVisits(prev => decrementVisitUsage(prev, generatedVisit.id));
+    // Decrement the visit usage for the current period
+    setGeneratedVisitsByPeriod(prev => ({
+      ...prev,
+      [currentPeriod]: decrementVisitUsage(prev[currentPeriod] || [], generatedVisit.id)
+    }));
   };
 
   const handleRemoveVisit = (visitId: string) => {
@@ -111,7 +121,7 @@ export default function CalendarPage() {
       [currentPeriod.toString()]: []
     }));
     
-    // Regenerate visits to restore all tiles
+    // Regenerate visits to restore all tiles for current period
     if (visitsGenerated && restaurants.length > 0) {
       regenerateVisitsForPeriod(currentPeriod);
     }
@@ -145,7 +155,7 @@ export default function CalendarPage() {
             {visitsGenerated && (
               <VisitBank
                 currentPeriod={currentPeriod}
-                generatedVisits={getAvailableVisits(generatedVisits)}
+                generatedVisits={getAvailableVisits(currentPeriodVisits)}
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 onResetCalendar={handleResetCalendar}
