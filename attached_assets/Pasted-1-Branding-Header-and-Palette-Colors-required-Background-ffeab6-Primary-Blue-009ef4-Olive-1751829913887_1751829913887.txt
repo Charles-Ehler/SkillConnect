@@ -1,0 +1,106 @@
+1. Branding, Header, and Palette
+Colors (required):
+
+Background: #ffeab6
+Primary Blue: #009ef4
+Olive: #959502
+Yellow: #f9d000
+Light Blue: #80ceff
+Fuchsia: #da3d9d
+Light Fuchsia: #e8b2ee
+Red-Orange: #ff4c0a
+Cash Audit Blue: #bcdaff
+GM Impact Gold: #ff9d00
+Action Red: #cc0066
+Error Red: #ff020f
+Font: System sans-serif, bold headings/colors as above.
+
+Header layout (must match):
+
+html
+Copy
+<header class="mb-8">
+  <div class="flex justify-between items-start mb-6">
+    <div class="flex items-center gap-4">
+      <img src="https://github.com/Charles-Ehler/Cava-Calendar/blob/main/CavaLogo.png?raw=true" alt="CAVA Logo" class="w-32 h-32 rounded-lg object-contain">
+      <div>
+        <h1 class="text-3xl font-bold text-[#009ef4]">Ops Leader Visit Calendar</h1>
+        <p class="text-lg text-[#959502]">Schedule your visits for the selected period</p>
+      </div>
+    </div>
+  </div>
+  <div class="flex justify-start mb-6">
+    <button id="viewInstructionsBtn" class="bg-[#fff8e8] text-[#ff020f] font-bold px-4 py-2 rounded-full shadow-sm hover:underline transition-all">
+      View Instructions
+    </button>
+  </div>
+</header>
+2. CAVA 2025 Periods/Weeks – ALL DATES, MONDAY TO SUNDAY
+Use only these dates for ALL grid labels, week headers, and navigation. Every week is Monday–Sunday:
+
+For brevity here, assume your full, week-by-week listing from previous responses is inserted.
+
+3. Main Layout – ALWAYS: LEFT VISIT BANK, RIGHT CALENDAR
+Two columns (main content):
+LEFT (1/3 width): Visit Setup and Visit Bank
+Sidebar contains:
+"Your Name" input (required, persists globally)
+"Number of restaurants in your garden" (integer, required)
+Dynamic restaurant name fields, all required
+"Generate Visits" button (full-width, yellow, disabled until valid)
+Visit Bank:
+Section 1 (top): Static Visits ("One per period"), always Station Training and Competency Champion, in their correct colors
+Section 2: Restaurant Visits (only valid for selected period), tiles colored and labeled per visit mapping below
+DRAG: Tiles are draggable from this panel ONLY (left) into the calendar.
+RIGHT (2/3 width): Calendar
+Four week blocks vertically stacked, top-to-bottom
+Each week = grid/table with time axis (8:00 AM–10:00 PM, first column) and Monday–Sunday columns
+Each cell = drop target (for visit bank tiles) only if open
+DROP: Only tiles from the left Visit Bank may be dragged/dropped to the right calendar.
+4. Period and Tab Behavior
+Period tabs at the top of the calendar (not header)
+On load: Automatically select current period by today's date (per CAVA week breakdown)
+All previous periods: visually grayed out tabs (text-gray-400) but still fully clickable and editable.
+Switching periods:
+Visit Bank at left refreshes with templates for only that period (see rules below)
+Calendar and all scheduled tiles refresh, isolated to that period (persisted/remembered for session, per period)
+Restaurants and user name stay the same across all period switches
+5. Visit Rules: PER-PERIOD, FULLY SPELLED OUT
+Visit Tiles Generated:
+
+Type (internal)	What it Shows (Tile)	Where	In These Periods	Qty	Hours	Tile BG	Text
+QRA (Quality Restaurant Audit)	Quality Restaurant Audit (QRA)	All	P1, P5, P8, P11	1/restaurant	5	#009ef4	white
+Coaching Visit	Coaching Visit	All	P2, 3, 4, 6, 7, 9, 10, 12, 13	1/restaurant	2	#959502	white
+Cash Audit	Cash Audit	All	ALL	1/restaurant	1	#bcdaff	black
+GM Impact Plan	GM Impact Plan Conversation	All	ALL	1/restaurant	1	#ff9d00	white
+Guest Experience	Guest Experience Night/Weekend	All	ALL	1/restaurant	1.5	#da3d9d	white
+Station Training	Station Training Workshop	Static	ALL	1/period	2	#ff4c0a	white
+Competency Champion	Competency Champion Training	Static	ALL	1/period	1	#e8b2ee	black
+Visit tiles appear in bank left panel ONLY if valid for selected period/tab:
+
+QRA only for periods 1, 5, 8, 11
+Coaching only for periods 2, 3, 4, 6, 7, 9, 10, 12, 13
+Cash Audit, GM Impact Plan, Guest Experience always
+Station Training/Competency Champion—ONE per period, always at top of bank, location labeled "One per period" in blue or fuchsia
+6. Calendar Grid and Drag/Drop Logic
+Four weeks vertically, top to bottom.
+Each week: labeled "Week N – mm/dd through mm/dd – [User Name]" (Week N in blue; name in fuchsia)
+Calendar for selected period only.
+Grid:
+Left/time: 8 AM–10 PM, every hour
+Mon–Sun columns, with short day & date headers
+DRAG: Visit tiles dragged from left Visit Bank into right calendar grid
+DROP/PLACEMENT:
+When placed, each tile EXPANDS VERTICALLY in its calendar column, filling as many hour rows as needed (duration/visit mapping above)
+NO grayed-out/blocked cells beneath; tile is visually expanded to fill its block
+Hard validation: cannot schedule a tile if any part of its intended vertical span is already occupied
+Remove/deleting the tile from calendar frees all those slot rows
+All placement data persists per period, for the session (return to a period, see previous placements)
+7. Additional UX/Accessibility/Print
+"View Instructions" opens a modal/drawer with bold, numbered steps, branded colors
+"Reset Calendar" (action red) warns before clearing all scheduled visits in a period
+Errors/disabled states use only palette colors
+Sidebar input validation is visible with CAVA error red
+Keyboard-navigable, print/export must preserve period breaks, grid, and vertical tile expansion with colors
+8. MASTER SUMMARY
+Build a CAVA-branded visit calendar. Header exactly as given. Use ONLY the colors, dates, and logic above. Visit Bank always on the left, calendar always on the right—tiles are ONLY dragged from the left bank to the right grid (and expanded per duration, vertically). Period tabs pull from full hardcoded CAVA fiscal structure with explicit week/date breakdown, always Monday–Sunday. All UI states, visit generation, and calendar refresh obey all logic above. NO rule, color, or UX element may be omitted or assumed; all of the above is mandatory.

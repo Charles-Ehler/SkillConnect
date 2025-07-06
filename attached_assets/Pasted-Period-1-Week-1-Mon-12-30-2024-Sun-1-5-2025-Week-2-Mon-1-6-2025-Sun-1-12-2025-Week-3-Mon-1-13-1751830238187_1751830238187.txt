@@ -1,0 +1,65 @@
+Period 1
+Week 1: Mon 12/30/2024 – Sun 1/5/2025
+Week 2: Mon 1/6/2025 – Sun 1/12/2025
+Week 3: Mon 1/13/2025 – Sun 1/19/2025
+Week 4: Mon 1/20/2025 – Sun 1/26/2025
+Period 2
+Week 1: Mon 1/27/2025 – Sun 2/2/2025
+Week 2: Mon 2/3/2025 – Sun 2/9/2025
+Week 3: Mon 2/10/2025 – Sun 2/16/2025
+Week 4: Mon 2/17/2025 – Sun 2/23/2025
+Period 3
+Week 1: Mon 2/24/2025 – Sun 3/2/2025
+Week 2: Mon 3/3/2025 – Sun 3/9/2025
+Week 3: Mon 3/10/2025 – Sun 3/16/2025
+Week 4: Mon 3/17/2025 – Sun 3/23/2025
+Period 4
+Week 1: Mon 3/24/2025 – Sun 3/30/2025
+Week 2: Mon 3/31/2025 – Sun 4/6/2025
+Week 3: Mon 4/7/2025 – Sun 4/13/2025
+Week 4: Mon 4/14/2025 – Sun 4/20/2025
+Period 5
+Week 1: Mon 4/21/2025 – Sun 4/27/2025
+Week 2: Mon 4/28/2025 – Sun 5/4/2025
+Week 3: Mon 5/5/2025 – Sun 5/11/2025
+Week 4: Mon 5/12/2025 – Sun 5/18/2025
+Period 6
+Week 1: Mon 5/19/2025 – Sun 5/25/2025
+Week 2: Mon 5/26/2025 – Sun 6/1/2025
+Week 3: Mon 6/2/2025 – Sun 6/8/2025
+Week 4: Mon 6/9/2025 – Sun 6/15/2025
+Period 7
+Week 1: Mon 6/16/2025 – Sun 6/22/2025
+Week 2: Mon 6/23/2025 – Sun 6/29/2025
+Week 3: Mon 6/30/2025 – Sun 7/6/2025
+Week 4: Mon 7/7/2025 – Sun 7/13/2025
+Period 8
+Week 1: Mon 7/14/2025 – Sun 7/20/2025
+Week 2: Mon 7/21/2025 – Sun 7/27/2025
+Week 3: Mon 7/28/2025 – Sun 8/3/2025
+Week 4: Mon 8/4/2025 – Sun 8/10/2025
+Period 9
+Week 1: Mon 8/11/2025 – Sun 8/17/2025
+Week 2: Mon 8/18/2025 – Sun 8/24/2025
+Week 3: Mon 8/25/2025 – Sun 8/31/2025
+Week 4: Mon 9/1/2025 – Sun 9/7/2025
+Period 10
+Week 1: Mon 9/8/2025 – Sun 9/14/2025
+Week 2: Mon 9/15/2025 – Sun 9/21/2025
+Week 3: Mon 9/22/2025 – Sun 9/28/2025
+Week 4: Mon 9/29/2025 – Sun 10/5/2025
+Period 11
+Week 1: Mon 10/6/2025 – Sun 10/12/2025
+Week 2: Mon 10/13/2025 – Sun 10/19/2025
+Week 3: Mon 10/20/2025 – Sun 10/26/2025
+Week 4: Mon 10/27/2025 – Sun 11/2/2025
+Period 12
+Week 1: Mon 11/3/2025 – Sun 11/9/2025
+Week 2: Mon 11/10/2025 – Sun 11/16/2025
+Week 3: Mon 11/17/2025 – Sun 11/23/2025
+Week 4: Mon 11/24/2025 – Sun 11/30/2025
+Period 13
+Week 1: Mon 12/1/2025 – Sun 12/7/2025
+Week 2: Mon 12/8/2025 – Sun 12/14/2025
+Week 3: Mon 12/15/2025 – Sun 12/21/2025
+Week 4: Mon 12/22/2025 – Sun 12/28/2025
