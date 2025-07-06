@@ -90,6 +90,7 @@ This is a React/Express full-stack web application for CAVA restaurant operation
 ```
 Changelog:
 - July 06, 2025. Initial setup
+- July 06, 2025. Fixed period switching issue - visit tracking now properly maintained per period
 ```
 
 ## User Preferences
