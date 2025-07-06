@@ -1,0 +1,179 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(45, 89%, 85%);
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(60, 4.8%, 95.9%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 90%);
+  --input: hsl(20, 5.9%, 90%);
+  --primary: hsl(207, 100%, 50%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(60, 4.8%, 95.9%);
+  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --accent: hsl(60, 4.8%, 95.9%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(20, 14.3%, 4.1%);
+  --radius: 0.5rem;
+  
+  /* CAVA Brand Colors */
+  --cava-bg: hsl(45, 89%, 85%);
+  --cava-primary: hsl(207, 100%, 50%);
+  --cava-olive: hsl(60, 97%, 29%);
+  --cava-yellow: hsl(51, 100%, 50%);
+  --cava-light-blue: hsl(207, 100%, 75%);
+  --cava-fuchsia: hsl(313, 62%, 55%);
+  --cava-light-fuchsia: hsl(313, 62%, 80%);
+  --cava-red-orange: hsl(12, 100%, 52%);
+  --cava-cash-blue: hsl(207, 100%, 87%);
+  --cava-gold: hsl(36, 100%, 50%);
+  --cava-action-red: hsl(332, 100%, 40%);
+  --cava-error: hsl(359, 100%, 50%);
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(207, 100%, 50%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased;
+    background-color: var(--cava-bg);
+    color: var(--foreground);
+  }
+}
+
+@layer utilities {
+  .cava-bg { background-color: var(--cava-bg); }
+  .cava-primary { background-color: var(--cava-primary); }
+  .cava-olive { background-color: var(--cava-olive); }
+  .cava-yellow { background-color: var(--cava-yellow); }
+  .cava-light-blue { background-color: var(--cava-light-blue); }
+  .cava-fuchsia { background-color: var(--cava-fuchsia); }
+  .cava-light-fuchsia { background-color: var(--cava-light-fuchsia); }
+  .cava-red-orange { background-color: var(--cava-red-orange); }
+  .cava-cash-blue { background-color: var(--cava-cash-blue); }
+  .cava-gold { background-color: var(--cava-gold); }
+  .cava-action-red { background-color: var(--cava-action-red); }
+  .cava-error { background-color: var(--cava-error); }
+  
+  .text-cava-primary { color: var(--cava-primary); }
+  .text-cava-olive { color: var(--cava-olive); }
+  .text-cava-yellow { color: var(--cava-yellow); }
+  .text-cava-light-blue { color: var(--cava-light-blue); }
+  .text-cava-fuchsia { color: var(--cava-fuchsia); }
+  .text-cava-light-fuchsia { color: var(--cava-light-fuchsia); }
+  .text-cava-red-orange { color: var(--cava-red-orange); }
+  .text-cava-cash-blue { color: var(--cava-cash-blue); }
+  .text-cava-gold { color: var(--cava-gold); }
+  .text-cava-action-red { color: var(--cava-action-red); }
+  .text-cava-error { color: var(--cava-error); }
+
+  .drag-handle {
+    cursor: grab;
+  }
+  
+  .drag-handle:active {
+    cursor: grabbing;
+  }
+  
+  .drop-zone {
+    transition: all 0.2s ease;
+  }
+  
+  .drop-zone.drag-over {
+    background-color: rgba(0, 158, 244, 0.1);
+    border: 2px dashed var(--cava-primary);
+  }
+  
+  .visit-tile {
+    border-radius: 8px;
+    padding: 8px;
+    margin: 4px 0;
+    text-align: center;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 1.2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    word-wrap: break-word;
+    min-height: 40px;
+  }
+  
+  .calendar-cell {
+    height: 60px;
+    border: 1px solid #e5e7eb;
+    position: relative;
+  }
+  
+  .placed-tile {
+    position: absolute;
+    left: 2px;
+    right: 2px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 11px;
+    line-height: 1.1;
+    text-align: center;
+    padding: 2px;
+    word-wrap: break-word;
+    z-index: 10;
+    cursor: pointer;
+  }
+  
+  .period-tab {
+    transition: all 0.2s ease;
+  }
+  
+  .period-tab.active {
+    border-bottom: 3px solid var(--cava-primary);
+  }
+  
+  .period-tab.past {
+    color: #9ca3af;
+  }
+
+  .fade-in {
+    animation: fadeIn 0.3s ease-in;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
