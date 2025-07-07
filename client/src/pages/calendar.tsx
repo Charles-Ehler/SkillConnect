@@ -340,7 +340,6 @@ export default function CalendarPage() {
                 generatedVisits={getAvailableVisits(currentPeriodVisits)}
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
-                onResetCalendar={handleResetCalendar}
                 onDownloadPDF={handleDownloadPDF}
               />
             )}
@@ -362,6 +361,18 @@ export default function CalendarPage() {
           />
         </div>
       </div>
+      
+      {/* Reset Calendar Button - Global Fixed Position */}
+      {visitsGenerated && (
+        <div className="fixed bottom-6 right-6 z-[9999] pointer-events-auto">
+          <button
+            onClick={handleResetCalendar}
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-colors"
+          >
+            Reset Calendar
+          </button>
+        </div>
+      )}
     </div>
   );
 }

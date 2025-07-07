@@ -10,7 +10,6 @@ interface VisitBankProps {
   generatedVisits: GeneratedVisit[];
   onDragStart: (item: DraggedItem) => void;
   onDragEnd: () => void;
-  onResetCalendar: () => void;
   onDownloadPDF: () => void;
 }
 
@@ -19,17 +18,12 @@ export function VisitBank({
   generatedVisits,
   onDragStart, 
   onDragEnd,
-  onResetCalendar,
   onDownloadPDF
 }: VisitBankProps) {
   const staticVisits = generatedVisits.filter(visit => visit.frequency === 'per-garden');
   const restaurantVisits = generatedVisits.filter(visit => visit.frequency === 'per-restaurant');
 
-  const handleResetCalendar = () => {
-    if (confirm('Are you sure you want to reset the calendar for this period? This action cannot be undone.')) {
-      onResetCalendar();
-    }
-  };
+
 
   return (
     <Card>
@@ -91,15 +85,7 @@ export function VisitBank({
           </div>
         </div>
 
-        {/* Reset Calendar Button - Fixed Position */}
-        <div className="fixed bottom-6 right-6 z-[9999] pointer-events-auto">
-          <Button
-            onClick={handleResetCalendar}
-            className="cava-action-red text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-red-700 transition-colors relative z-[9999]"
-          >
-            Reset Calendar
-          </Button>
-        </div>
+
       </CardContent>
     </Card>
   );
